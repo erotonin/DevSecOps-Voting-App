@@ -5,33 +5,29 @@
 *.tfvars
 .terraform.lock.hcl
 
-# Docker
-*.log
-.DS_Store
-
-# OS
-Thumbs.db
-
 # Python (cho dịch vụ vote)
-__pycache__/
-*.py[cod]
-*$py.class
-venv/
-.env
+**/__pycache__/
+**/*.py[cod]
+**/*$py.class
+**/venv/
+**/.env
 
 # Node.js (cho dịch vụ result)
-node_modules/
-npm-debug.log
-yarn-error.log
-.env.local
+**/node_modules/
+**/npm-debug.log
+**/yarn-error.log
+**/.env.local
 
 # .NET (cho dịch vụ worker)
-bin/
-obj/
-*.user
-*.suo
-[Dd]ebug/
-[Rr]elease/
+**/bin/
+**/obj/
+**/*.user
+**/*.suo
+**/[Dd]ebug/
+**/[Rr]elease/
 
-# VS Code
+# VS Code & OS
 .vscode/
+.DS_Store
+Thumbs.db
+*.log

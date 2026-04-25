@@ -1,0 +1,40 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  id-token: write 
+  contents: read
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+        aws-region: us-east-1
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+    - name: Build, tag, and push images to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -t $ECR_REGISTRY/voting-app-vote:$IMAGE_TAG ./vote
+        docker push $ECR_REGISTRY/voting-app-vote:$IMAGE_TAG
+        
+        docker build -t $ECR_REGISTRY/voting-app-result:$IMAGE_TAG ./result
+        docker push $ECR_REGISTRY/voting-app-result:$IMAGE_TAG
+        
+        docker build -t $ECR_REGISTRY/voting-app-worker:$IMAGE_TAG ./worker
+        docker push $ECR_REGISTRY/voting-app-worker:$IMAGE_TAG
