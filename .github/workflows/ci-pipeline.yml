@@ -5,14 +5,13 @@ on:
     branches: [ "main" ]
 
 permissions:
-  id-token: write 
+  id-token: write
   contents: read
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
     steps:
-
     - name: Checkout code
       uses: actions/checkout@v4
 
@@ -25,16 +24,50 @@ jobs:
     - name: Login to Amazon ECR
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
-    - name: Build, tag, and push images to Amazon ECR
+
+    - name: Build VOTE
+      run: docker build -t voting-app-vote:${{ github.sha }} ./vote
+
+    - name: Scan VOTE with Trivy
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: 'voting-app-vote:${{ github.sha }}'
+        format: 'table'
+        exit-code: '1'
+        severity: 'CRITICAL,HIGH'
+
+    - name: Build RESULT
+      run: docker build -t voting-app-result:${{ github.sha }} ./result
+
+    - name: Scan RESULT with Trivy
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: 'voting-app-result:${{ github.sha }}'
+        format: 'table'
+        exit-code: '1'
+        severity: 'CRITICAL,HIGH'
+
+    - name: Build WORKER
+      run: docker build -t voting-app-worker:${{ github.sha }} ./worker
+
+    - name: Scan WORKER with Trivy
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: 'voting-app-worker:${{ github.sha }}'
+        format: 'table'
+        exit-code: '1'
+        severity: 'CRITICAL,HIGH'
+
+    - name: Push to ECR
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker build -t $ECR_REGISTRY/voting-app-vote:$IMAGE_TAG ./vote
+        docker tag voting-app-vote:$IMAGE_TAG $ECR_REGISTRY/voting-app-vote:$IMAGE_TAG
         docker push $ECR_REGISTRY/voting-app-vote:$IMAGE_TAG
         
-        docker build -t $ECR_REGISTRY/voting-app-result:$IMAGE_TAG ./result
+        docker tag voting-app-result:$IMAGE_TAG $ECR_REGISTRY/voting-app-result:$IMAGE_TAG
         docker push $ECR_REGISTRY/voting-app-result:$IMAGE_TAG
         
-        docker build -t $ECR_REGISTRY/voting-app-worker:$IMAGE_TAG ./worker
+        docker tag voting-app-worker:$IMAGE_TAG $ECR_REGISTRY/voting-app-worker:$IMAGE_TAG
         docker push $ECR_REGISTRY/voting-app-worker:$IMAGE_TAG
