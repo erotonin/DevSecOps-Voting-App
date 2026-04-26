@@ -10,7 +10,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --only=production && \
     npm audit fix --force && \
-    rm -rf
+    rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx /root/.npm
 COPY --from=build /app/server.js .
 COPY --from=build /app/views ./views
 USER node
