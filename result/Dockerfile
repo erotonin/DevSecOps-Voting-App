@@ -6,6 +6,7 @@ COPY . .
 
 FROM node:18-alpine
 RUN apk update && apk upgrade --no-cache
+RUN npm install -g npm@latest
 WORKDIR /app
 COPY package*.json ./
 RUN npm install --only=production && npm audit fix --force
