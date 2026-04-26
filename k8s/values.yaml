@@ -1,0 +1,28 @@
+# Bảng cấu hình tập trung cho Voting App
+
+# Số lượng bản sao (replica) cho mỗi dịch vụ
+replicaCount: 1
+
+# Danh sách các Image (đường dẫn tới kho ECR của bạn)
+images:
+  vote:
+    repository: 800557027783.dkr.ecr.us-east-1.amazonaws.com/voting-app-vote
+    tag: latest
+  result:
+    repository: 800557027783.dkr.ecr.us-east-1.amazonaws.com/voting-app-result
+    tag: latest
+  worker:
+    repository: 800557027783.dkr.ecr.us-east-1.amazonaws.com/voting-app-worker
+    tag: latest
+  redis:
+    repository: redis
+    tag: 7-alpine
+  db:
+    repository: postgres
+    tag: 15-alpine
+
+# Cấu hình Database
+postgres:
+  user: postgres
+  password: password
+  db: postgres
