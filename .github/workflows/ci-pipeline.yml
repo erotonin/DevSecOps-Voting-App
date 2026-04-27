@@ -67,10 +67,16 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}
       run: |
         docker tag voting-app-vote:$IMAGE_TAG $ECR_REGISTRY/voting-app-vote:$IMAGE_TAG
+        docker tag voting-app-vote:$IMAGE_TAG $ECR_REGISTRY/voting-app-vote:latest
         docker push $ECR_REGISTRY/voting-app-vote:$IMAGE_TAG
+        docker push $ECR_REGISTRY/voting-app-vote:latest
         
         docker tag voting-app-result:$IMAGE_TAG $ECR_REGISTRY/voting-app-result:$IMAGE_TAG
+        docker tag voting-app-result:$IMAGE_TAG $ECR_REGISTRY/voting-app-result:latest
         docker push $ECR_REGISTRY/voting-app-result:$IMAGE_TAG
+        docker push $ECR_REGISTRY/voting-app-result:latest
         
         docker tag voting-app-worker:$IMAGE_TAG $ECR_REGISTRY/voting-app-worker:$IMAGE_TAG
+        docker tag voting-app-worker:$IMAGE_TAG $ECR_REGISTRY/voting-app-worker:latest
         docker push $ECR_REGISTRY/voting-app-worker:$IMAGE_TAG
+        docker push $ECR_REGISTRY/voting-app-worker:latest
