@@ -14,6 +14,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: OWASP Dependency Check
       uses: dependency-check/Dependency-Check_Action@main
@@ -25,6 +27,12 @@ jobs:
           --failOnCVSS 7
           --enableRetired
           --suppression suppression.xml
+
+    - name: SonarQube Scan
+      uses: sonarsource/sonarqube-scan-action@master
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
