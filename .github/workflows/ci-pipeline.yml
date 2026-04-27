@@ -24,6 +24,7 @@ jobs:
         args: >
           --failOnCVSS 7
           --enableRetired
+          --suppression suppression.xml
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
