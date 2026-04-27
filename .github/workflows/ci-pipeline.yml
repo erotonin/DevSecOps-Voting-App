@@ -15,6 +15,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: OWASP Dependency Check
+      uses: dependency-check/Dependency-Check_Action@main
+      with:
+        project: 'DevSecOps-Voting-App'
+        path: '.'
+        format: 'HTML'
+        args: >
+          --failOnCVSS 7
+          --enableRetired
+
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:

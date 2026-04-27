@@ -16,7 +16,7 @@ spec:
       - name: result
         image: {{ .Values.images.result.repository }}:{{ .Values.images.result.tag }}
         ports:
-        - containerPort: 80
+        - containerPort: 4000
           name: result
 ---
 apiVersion: v1
@@ -27,6 +27,6 @@ spec:
   type: LoadBalancer
   ports:
   - port: 80
-    targetPort: 80
+    targetPort: 4000
   selector:
     app: result
