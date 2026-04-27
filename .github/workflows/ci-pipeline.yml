@@ -34,6 +34,23 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
+    - name: Setup .NET SDK
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '7.0.x'
+
+    - name: Install SonarScanner for .NET
+      run: dotnet tool install --global dotnet-sonarscanner
+
+    - name: SonarQube Scan (Worker / C#)
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+      run: |
+        dotnet sonarscanner begin /k:"Worker-App" /d:sonar.host.url="${{ secrets.SONAR_HOST_URL }}" /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+        dotnet build ./worker/Worker.csproj
+        dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
