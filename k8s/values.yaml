@@ -1,23 +1,21 @@
 
 replicaCount: 1
-
 images:
   vote:
     repository: 800557027783.dkr.ecr.us-east-1.amazonaws.com/voting-app-vote
-    tag: latest
+    tag: ead6589e094e449698b86c7580811c2e3ff42d2d
   result:
     repository: 800557027783.dkr.ecr.us-east-1.amazonaws.com/voting-app-result
-    tag: latest
+    tag: ead6589e094e449698b86c7580811c2e3ff42d2d
   worker:
     repository: 800557027783.dkr.ecr.us-east-1.amazonaws.com/voting-app-worker
-    tag: latest
+    tag: ead6589e094e449698b86c7580811c2e3ff42d2d
   redis:
     repository: redis
     tag: 7-alpine
   db:
     repository: postgres
     tag: 15-alpine
-
 postgres:
   user: postgres
   password: password
