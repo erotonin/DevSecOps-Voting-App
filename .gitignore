@@ -31,3 +31,20 @@
 .DS_Store
 Thumbs.db
 *.log
+
+# Security & Keys
+*.pem
+*.key
+*.cert
+*.rsa
+*.pub
+
+# IDE & Editors
+.idea/
+*.swp
+*.swo
+
+# CI/CD & Scanners
+.scannerwork/
+dependency-check-report.html
+dependency-check-report.xml

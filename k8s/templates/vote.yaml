@@ -24,7 +24,7 @@ kind: Service
 metadata:
   name: vote
 spec:
-  type: LoadBalancer # Để người dùng có thể truy cập từ internet
+  type: LoadBalancer
   ports:
   - port: 80
     targetPort: 80
