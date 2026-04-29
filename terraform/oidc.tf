@@ -17,7 +17,7 @@ resource "aws_iam_role" "github_actions" {
         }
         Condition = {
           StringLike = {
-            "token.actions.githubusercontent.com:sub" : "repo:erotonin/DevSecOps-Voting-App:*"
+            "token.actions.githubusercontent.com:sub" : "repo:${var.github_repo}:*"
           }
         }
       }
