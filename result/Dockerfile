@@ -1,19 +1,18 @@
-FROM node:20-slim AS build
+# ===== Stage 1: Build =====
+FROM node:20-alpine AS build
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
-COPY . .
+RUN npm ci --only=production && \
+    npm cache clean --force
 
+# ===== Stage 2: Production image =====
 FROM node:20-alpine
-RUN apk update && apk upgrade --no-cache
+RUN apk update && apk upgrade --no-cache && \
+    rm -rf /var/cache/apk/*
 WORKDIR /app
-COPY package*.json ./
-RUN npm install --only=production && \
-    npm audit fix --force && \
-    rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx /root/.npm
-COPY --from=build /app/server.js .
-COPY --from=build /app/views ./views
+COPY --from=build /app/node_modules ./node_modules
+COPY server.js .
+COPY views ./views
 USER node
-
 EXPOSE 80
 CMD ["node", "server.js"]
