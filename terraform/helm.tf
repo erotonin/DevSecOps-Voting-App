@@ -44,8 +44,18 @@ resource "helm_release" "sonarqube" {
   depends_on = [module.eks]
 }
 
+resource "time_sleep" "wait_for_argocd" {
+  depends_on      = [helm_release.argocd]
+  create_duration = "30s"
+}
+
 resource "null_resource" "argocd_app" {
-  depends_on = [helm_release.argocd]
+  depends_on = [time_sleep.wait_for_argocd]
+
+  triggers = {
+    region       = var.aws_region
+    cluster_name = var.cluster_name
+  }
 
   provisioner "local-exec" {
     command = <<EOT
@@ -57,7 +67,7 @@ resource "null_resource" "argocd_app" {
   provisioner "local-exec" {
     when    = destroy
     command = <<EOT
-      aws eks update-kubeconfig --region us-east-1 --name voting-app-cluster
+      aws eks update-kubeconfig --region ${self.triggers.region} --name ${self.triggers.cluster_name}
       kubectl delete -f ../k8s/argocd-app.yaml --ignore-not-found=true
     EOT
   }
