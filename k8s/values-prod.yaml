@@ -2,13 +2,13 @@ replicaCount: 3
 images:
   vote:
     repository: 800557027783.dkr.ecr.us-east-1.amazonaws.com/voting-app-vote
-    tag: c42add19b34d4fa0f10710e831d4ecffd13044da
+    tag: 3c91ee5360e65d1119f0c0fe0c6e3c378c6159f4
   result:
     repository: 800557027783.dkr.ecr.us-east-1.amazonaws.com/voting-app-result
-    tag: c42add19b34d4fa0f10710e831d4ecffd13044da
+    tag: 3c91ee5360e65d1119f0c0fe0c6e3c378c6159f4
   worker:
     repository: 800557027783.dkr.ecr.us-east-1.amazonaws.com/voting-app-worker
-    tag: c42add19b34d4fa0f10710e831d4ecffd13044da
+    tag: 3c91ee5360e65d1119f0c0fe0c6e3c378c6159f4
   redis:
     repository: redis
     tag: 7-alpine
