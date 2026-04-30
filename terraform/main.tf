@@ -1,8 +1,8 @@
 module "networking" {
   source          = "./modules/networking"
-  vpc_cidr        = "10.0.0.0/16"
-  public_subnets  = ["10.0.1.0/24", "10.0.2.0/24"]
-  private_subnets = ["10.0.11.0/24", "10.0.12.0/24"]
+  vpc_cidr        = var.vpc_cidr
+  public_subnets  = var.public_subnets
+  private_subnets = var.private_subnets
   azs             = ["${var.aws_region}a", "${var.aws_region}b"]
 }
 
@@ -18,5 +18,5 @@ module "eks" {
 
 module "ecr" {
   source     = "./modules/ecr"
-  repo_names = ["voting-app-vote", "voting-app-result", "voting-app-worker"]
+  repo_names = var.ecr_repo_names
 }
