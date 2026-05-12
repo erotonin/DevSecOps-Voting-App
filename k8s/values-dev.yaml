@@ -18,5 +18,5 @@ images:
     tag: 15-alpine
 postgres:
   user: postgres
-  password: password
+  password: postgres
   db: postgres
