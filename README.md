@@ -125,7 +125,7 @@ kubectl get svc -n sonarqube
 | `AWS_ROLE_ARN` | Output from `terraform output github_actions_role_arn` |
 | `SONAR_TOKEN` | Generated from SonarQube UI |
 | `SONAR_HOST_URL` | SonarQube LoadBalancer URL |
-| `NEXUS_HOST_URL` | Nexus LoadBalancer URL (không bao gồm port 8081) |
+| `NEXUS_HOST_URL` | Nexus LoadBalancer URL |
 
 ### 5. Trigger Pipeline
 ```bash
