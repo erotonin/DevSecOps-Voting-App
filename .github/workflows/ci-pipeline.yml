@@ -79,7 +79,7 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v2
     - name: Build VOTE
-      run: docker build -t voting-app-vote:${{ github.sha }} ./vote
+      run: docker build --build-arg NEXUS_URL="${{ secrets.NEXUS_HOST_URL }}:8081/repository/pypi-proxy/simple" -t voting-app-vote:${{ github.sha }} ./vote
     - name: Scan VOTE with Trivy
       uses: aquasecurity/trivy-action@master
       with:
@@ -89,7 +89,7 @@ jobs:
         severity: 'CRITICAL,HIGH'
         ignore-unfixed: true
     - name: Build RESULT
-      run: docker build -t voting-app-result:${{ github.sha }} ./result
+      run: docker build --build-arg NEXUS_URL="${{ secrets.NEXUS_HOST_URL }}:8081/repository/npm-proxy/" -t voting-app-result:${{ github.sha }} ./result
     - name: Scan RESULT with Trivy
       uses: aquasecurity/trivy-action@master
       with:
@@ -99,7 +99,7 @@ jobs:
         severity: 'CRITICAL,HIGH'
         ignore-unfixed: true
     - name: Build WORKER
-      run: docker build -t voting-app-worker:${{ github.sha }} ./worker
+      run: docker build --build-arg NEXUS_URL="${{ secrets.NEXUS_HOST_URL }}:8081/repository/nuget-proxy/index.json" -t voting-app-worker:${{ github.sha }} ./worker
     - name: Scan WORKER with Trivy
       uses: aquasecurity/trivy-action@master
       with:

@@ -2,7 +2,9 @@
 FROM node:20-alpine AS build
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --only=production && \
+ARG NEXUS_URL=https://registry.npmjs.org/
+RUN npm config set strict-ssl false && \
+    npm ci --registry=${NEXUS_URL} --only=production && \
     npm cache clean --force
 
 # ===== Stage 2: Production image =====
@@ -14,5 +16,5 @@ COPY --from=build /app/node_modules ./node_modules
 COPY server.js .
 COPY views ./views
 USER node
-EXPOSE 80
+EXPOSE 4000
 CMD ["node", "server.js"]

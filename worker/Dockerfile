@@ -3,7 +3,8 @@ FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:7.0-alpine AS build
 ARG TARGETARCH
 WORKDIR /source
 COPY *.csproj .
-RUN dotnet restore -a $TARGETARCH
+ARG NEXUS_URL=https://api.nuget.org/v3/index.json
+RUN dotnet restore -s ${NEXUS_URL} -a $TARGETARCH
 COPY . .
 RUN dotnet publish -c release -o /app -a $TARGETARCH --self-contained false --no-restore
 

@@ -27,11 +27,14 @@ services:
     build: ./result
     container_name: result
     ports:
-      - "5001:80"
+      - "5001:4000"
+    environment:
+      - PORT=4000
     networks:
       - voting-network
     depends_on:
-      - db
+      db:
+        condition: service_healthy
   worker:
     build: ./worker
     container_name: worker

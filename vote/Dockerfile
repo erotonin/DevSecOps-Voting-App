@@ -1,8 +1,10 @@
 # ===== Stage 1: Build dependencies =====
 FROM python:3.11-alpine AS build
 WORKDIR /install
+ARG NEXUS_URL=https://pypi.org/simple
 COPY requirements.txt .
-RUN pip install --no-cache-dir --prefix=/install/deps -r requirements.txt
+RUN TRUSTED_HOST=$(echo $NEXUS_URL | awk -F/ '{print $3}') && \
+    pip install --no-cache-dir --prefix=/install/deps -r requirements.txt -i ${NEXUS_URL} --trusted-host $TRUSTED_HOST
 
 # ===== Stage 2: Production image =====
 FROM python:3.11-alpine

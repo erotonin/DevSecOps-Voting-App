@@ -15,7 +15,7 @@ terraform {
     }
 
     backend "s3" {
-        bucket         = "voting-app-tfstate-erotonin"
+        bucket         = "voting-app-tfstate-23520669"
         key            = "terraform.tfstate"
         region         = "us-east-1"
         dynamodb_table = "voting-app-terraform-locks"
