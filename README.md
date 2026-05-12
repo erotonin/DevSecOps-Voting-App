@@ -123,8 +123,8 @@ kubectl get svc -n sonarqube
 | Secret Name | Value |
 |-------------|-------|
 | `AWS_ROLE_ARN` | Output from `terraform output github_actions_role_arn` |
-| `SONAR_TOKEN` | Generated from SonarQube UI |
 | `SONAR_HOST_URL` | SonarQube LoadBalancer URL |
+| `NEXUS_HOST_URL` | Nexus LoadBalancer URL (không bao gồm port 8081) |
 
 ### 5. Trigger Pipeline
 ```bash
@@ -144,7 +144,17 @@ kubectl get svc -n monitoring prometheus-grafana
 
 # SonarQube (admin / admin)
 kubectl get svc -n sonarqube
+
+# Sonatype Nexus (admin / admin123)
+kubectl get svc -n nexus
 ```
+
+## Security & Artifact Management with Nexus
+
+This project uses **Sonatype Nexus Repository Manager** to optimize and secure the CI/CD pipeline:
+- **Proxy Repositories**: Caches dependencies for PyPI (Python), NPM (Node.js), and NuGet (.NET) to speed up builds and reduce external bandwidth.
+- **Vulnerability Remediation**: Combined with Trivy and SonarQube, Nexus ensures that all third-party libraries used in the Docker images are scanned and verified.
+- **Centralized Management**: All build artifacts and proxies are managed through a single secured instance on EKS.
 
 ## CI/CD Pipeline Flow
 
