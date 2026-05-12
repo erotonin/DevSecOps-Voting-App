@@ -136,10 +136,10 @@ git add . && git commit -m "Deploy" && git push
 ```bash
 # Voting App
 kubectl get svc vote result
-
+ 
 # ArgoCD (admin / admin123)
 kubectl get svc -n argocd argocd-server
-
+ 
 # Grafana (admin / admin123)
 kubectl get svc -n monitoring prometheus-grafana
 
