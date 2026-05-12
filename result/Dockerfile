@@ -10,6 +10,7 @@ RUN npm config set strict-ssl false && \
 # ===== Stage 2: Production image =====
 FROM node:20-alpine
 RUN apk update && apk upgrade --no-cache && \
+    npm install -g npm@latest && \
     rm -rf /var/cache/apk/*
 WORKDIR /app
 COPY --from=build /app/node_modules ./node_modules
