@@ -13,8 +13,10 @@ RUN apk update && apk upgrade --no-cache && \
     adduser -D appuser
 WORKDIR /app
 COPY --from=build /install/deps /usr/local
-# Nâng cấp các thư viện bị lỗi CVE để ghi đè phiên bản cũ trong base image
-RUN pip install --no-cache-dir --upgrade wheel jaraco.context
+# Gỡ bỏ hoàn toàn các thư viện thừa và metadata bị lỗi CVE
+RUN pip uninstall -y wheel jaraco.context setuptools && \
+    find /usr/local/lib/python3.11/site-packages -name "wheel-*" -exec rm -rf {} + && \
+    find /usr/local/lib/python3.11/site-packages -name "jaraco.context-*" -exec rm -rf {} +
 COPY . .
 USER appuser
 EXPOSE 80
