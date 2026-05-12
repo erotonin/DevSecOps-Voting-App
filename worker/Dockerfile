@@ -4,7 +4,7 @@ ARG TARGETARCH
 WORKDIR /source
 COPY *.csproj .
 ARG NEXUS_URL=https://api.nuget.org/v3/index.json
-RUN dotnet restore -s ${NEXUS_URL} -a $TARGETARCH
+RUN dotnet restore -s ${NEXUS_URL} -a $TARGETARCH --no-cache
 COPY . .
 RUN dotnet publish -c release -o /app -a $TARGETARCH --self-contained false --no-restore
 
