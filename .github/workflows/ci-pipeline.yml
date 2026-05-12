@@ -99,7 +99,7 @@ jobs:
         severity: 'CRITICAL,HIGH'
         ignore-unfixed: true
     - name: Build WORKER
-      run: docker build --build-arg NEXUS_URL="${{ secrets.NEXUS_HOST_URL }}/repository/nuget-proxy/index.json" -t voting-app-worker:${{ github.sha }} ./worker
+      run: docker build --build-arg NEXUS_URL="${{ secrets.NEXUS_HOST_URL }}/repository/nuget.org-proxy/index.json" -t voting-app-worker:${{ github.sha }} ./worker
     - name: Scan WORKER with Trivy
       uses: aquasecurity/trivy-action@master
       with:
