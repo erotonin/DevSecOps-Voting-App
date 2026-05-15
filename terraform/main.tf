@@ -15,7 +15,7 @@ module "eks" {
   node_max_size      = var.node_max_size
   node_min_size      = var.node_min_size
 }
-
+ 
 module "ecr" {
   source     = "./modules/ecr"
   repo_names = var.ecr_repo_names
