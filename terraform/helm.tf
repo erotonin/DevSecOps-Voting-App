@@ -25,6 +25,8 @@ resource "helm_release" "sonarqube" {
   chart            = "sonarqube"
   namespace        = "sonarqube"
   create_namespace = true
+  timeout          = 900
+  cleanup_on_fail  = true
 
   set {
     name  = "community.enabled"
@@ -80,6 +82,8 @@ resource "helm_release" "prometheus" {
   chart            = "kube-prometheus-stack"
   namespace        = "monitoring"
   create_namespace = true
+  timeout          = 600
+  cleanup_on_fail  = true
 
   set {
     name  = "grafana.service.type"
